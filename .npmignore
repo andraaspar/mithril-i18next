@@ -1,0 +1,10 @@
+*.ts
+/.gitignore
+/.vscode
+/node_modules
+
+!/*.d.ts
+
+/html-parse-stringify2.d.ts
+/test.js
+/test.d.ts

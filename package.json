@@ -1,0 +1,39 @@
+{
+  "name": "mithril-i18next",
+  "version": "0.1.0",
+  "description": "i18next integration for Mithril.",
+  "author": "András Parditka",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andraaspar/mithril-i18next.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andraaspar/mithril-i18next/issues"
+  },
+  "homepage": "https://github.com/andraaspar/mithril-i18next#readme",
+  "license": "MIT",
+  "dependencies": {
+    "html-parse-stringify2": "^2.0.1"
+  },
+  "peerDependencies": {
+    "i18next": "^11.3.2",
+    "mithril": "^1.1.6",
+    "mithril-tsx-component": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/i18next": "^8.4.3",
+    "@types/mithril": "^1.1.12",
+    "@types/node": "^10.1.2",
+    "ava": "^0.25.0",
+    "del-cli": "^1.1.0",
+    "i18next": "^11.3.2",
+    "jsdom": "^11.11.0",
+    "mithril": "^1.1.6",
+    "mithril-tsx-component": "^3.0.0",
+    "typescript": "^2.8.3"
+  },
+  "scripts": {
+    "compile": "yarn && del-cli *.js *.d.ts !html-parse-stringify2.d.ts && tsc",
+    "test": "yarn compile && ava"
+  }
+}

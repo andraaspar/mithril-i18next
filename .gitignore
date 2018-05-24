@@ -1,0 +1,6 @@
+/.vscode
+/*.d.ts
+/*.js
+/node_modules
+
+!/html-parse-stringify2.d.ts
