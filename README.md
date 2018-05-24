@@ -18,3 +18,7 @@ m(Trans, { i18nKey: 'foo' },
 	' to follow the link.'
 )
 ```
+
+## Changelog
+
+**0.2.0** Fixed text node handling.

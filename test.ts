@@ -7,6 +7,7 @@ import * as i18n from 'i18next'
 
 i18n.init({
 	lng: 'en',
+	debug: true,
 	resources: {
 		en: {
 			translation: {
@@ -33,12 +34,15 @@ test(t => {
 })
 
 test(t => {
-	t.is(nodesToString('', ['foo', m('b', m('i', 'bar')), 'baz'], 0), 'foo<1><0>bar</0></1>baz')
+	t.is(nodesToString('', ['foo', m('b', 'bar')], 0), 'foo<1>bar</1>')
 })
 
 test(t => {
-	const vnode = m('div', 'bar')
-	t.is(nodesToString('', ['foo', vnode, 'baz'], 0), 'foo<1>bar</1>baz')
+	t.is(nodesToString('', ['foo', m('b', 'bar'), 'baz'], 0), 'foo<1>bar</1>baz')
+})
+
+test(t => {
+	t.is(nodesToString('', ['foo', m('b', m('i', 'bar')), 'baz'], 0), 'foo<1><0>bar</0></1>baz')
 })
 
 test(t => {
@@ -62,6 +66,13 @@ test(t => {
 	const div = document.createElement('div')
 	m.render(div, vnode)
 	t.is(div.innerHTML, 'baz')
+})
+
+test(t => {
+	const vnode = m(Trans, { i18nKey: '' }, 'bar', m('b', 'baz'))
+	const div = document.createElement('div')
+	m.render(div, vnode)
+	t.is(nodesToString('', vnode.children, 0), 'bar<1>baz</1>')
 })
 
 test(t => {

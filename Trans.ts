@@ -51,6 +51,17 @@ export interface Dummy {
 	text?: string
 }
 
+function isTextNode(o: any): o is m.Vnode {
+	return o && typeof o === 'object' && (o as m.Vnode).tag === '#'
+}
+
+function getText(node: Dummy | Child): string {
+	let c = node && ((node as any).children || (node as any).text)
+	if (!c) return ''
+	if (Array.isArray(c)) return c.join('')
+	return c
+}
+
 function hasChildren(node: Dummy | Child): boolean {
 	return getChildren(node).length > 0
 }
@@ -89,6 +100,8 @@ export function nodesToString(mem: string, children: Children, index: number) {
 			mem += nodesToString('', child, i + 1)
 		} else if (typeof child === 'string') {
 			mem += `${child}`
+		} else if (isTextNode(child)) {
+			mem += `${getText(child)}`
 		} else if (hasChildren(child)) {
 			mem += `<${elementKey}>${nodesToString('', getChildren(child), i + 1)}</${elementKey}>`
 		} else if (isComponentNode(child)) {
