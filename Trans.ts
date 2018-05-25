@@ -78,11 +78,25 @@ function isDummy(o: any): o is Dummy {
 }
 
 function isComponent(o: any): o is m.Component {
-	return o && (typeof o === 'object' || typeof o === 'function') && typeof o.view === 'function'
+	let r = !!o
+	if (r) {
+		if (typeof o === 'object') {
+			if (typeof o.view !== 'function') {
+				r = false
+			}
+		} else if (typeof o === 'function') {
+			if (typeof o.prototype.view !== 'function') {
+				r = false
+			}
+		} else {
+			r = false
+		}
+	}
+	return r
 }
 
 function isComponentNode(o: any): o is m.Vnode {
-	return isComponent(o && typeof o === 'object' && (o as m.Vnode).tag || undefined)
+	return isVnode(o) ? isComponent((o as m.Vnode).tag) : false
 }
 
 function isVnode(o: any): o is m.Vnode {

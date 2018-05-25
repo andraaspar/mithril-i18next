@@ -1,9 +1,9 @@
 /* */; (global as any).window = new (require('jsdom').JSDOM)().window
 /* */; (global as any).document = window.document
+import { nodesToString, renderNodes, Trans, Vnode } from './Trans'
 import { test } from 'ava'
-import * as m from 'mithril'
-import { Trans, nodesToString, renderNodes, Vnode } from './Trans'
 import * as i18n from 'i18next'
+import * as m from 'mithril'
 
 i18n.init({
 	lng: 'en',
@@ -18,6 +18,18 @@ i18n.init({
 	},
 })
 
+class ClassComp {
+	view(v: m.Vnode) {
+		return m('div', 'ClassComp')
+	}
+}
+
+const ObjComp = {
+	view(v: m.Vnode) {
+		return m('div', 'ObjComp')
+	}
+}
+
 test(t => {
 	t.is(i18n.t('foo'), 'baz')
 })
@@ -31,6 +43,14 @@ test(t => {
 
 test(t => {
 	t.is(nodesToString('', [m('div', 'bar')], 0), '<0>bar</0>')
+})
+
+test(t => {
+	t.is(nodesToString('', [m(ClassComp)], 0), '<0></0>')
+})
+
+test(t => {
+	t.is(nodesToString('', [m(ObjComp)], 0), '<0></0>')
 })
 
 test(t => {

@@ -21,4 +21,6 @@ m(Trans, { i18nKey: 'foo' },
 
 ## Changelog
 
+**0.2.1** Fixed isComponent check.
+
 **0.2.0** Fixed text node handling.
