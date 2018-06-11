@@ -1,9 +1,9 @@
 /* */; (global as any).window = new (require('jsdom').JSDOM)().window
 /* */; (global as any).document = window.document
-import { nodesToString, renderNodes, Trans, Vnode } from './Trans'
-import { test } from 'ava'
-import * as i18n from 'i18next'
-import * as m from 'mithril'
+import { test } from 'ava';
+import * as i18n from 'i18next';
+import * as m from 'mithril';
+import { nodesToString, renderNodes, Trans } from './Trans';
 
 i18n.init({
 	lng: 'en',
@@ -63,6 +63,10 @@ test(t => {
 
 test(t => {
 	t.is(nodesToString('', ['foo', m('b', m('i', 'bar')), 'baz'], 0), 'foo<1><0>bar</0></1>baz')
+})
+
+test(t => {
+	t.is(nodesToString('', [m(ClassComp, m(ObjComp))], 0), '<0></0>')
 })
 
 test(t => {

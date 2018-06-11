@@ -1,9 +1,9 @@
-import * as m from 'mithril'
-import { MithrilTsxComponent } from 'mithril-tsx-component'
-import * as i18n from 'i18next'
-import * as HTML from 'html-parse-stringify2'
+import * as HTML from 'html-parse-stringify2';
+import * as i18n from 'i18next';
 import { t, TranslationOptions } from 'i18next';
-import { Fragment, IFragmentAttrs } from './Fragment'
+import * as m from 'mithril';
+import { MithrilTsxComponent } from 'mithril-tsx-component';
+import { Fragment, IFragmentAttrs } from './Fragment';
 
 export interface ITransAttrs {
 	i18nKey: string
@@ -21,7 +21,7 @@ export class Trans extends MithrilTsxComponent<ITransAttrs> {
 	// oninit(v: Vnode) {}
 	// onbeforeupdate(v: Vnode, o: VnodeDOM) {}
 	view(v: Vnode) {
-		return m(Fragment, {},
+		return m(Fragment, {} as IFragmentAttrs,
 			...renderNodes(
 				v.children,
 				t(v.attrs.i18nKey, {
@@ -116,10 +116,10 @@ export function nodesToString(mem: string, children: Children, index: number) {
 			mem += `${child}`
 		} else if (isTextNode(child)) {
 			mem += `${getText(child)}`
-		} else if (hasChildren(child)) {
-			mem += `<${elementKey}>${nodesToString('', getChildren(child), i + 1)}</${elementKey}>`
 		} else if (isComponentNode(child)) {
 			mem += `<${elementKey}></${elementKey}>`
+		} else if (hasChildren(child)) {
+			mem += `<${elementKey}>${nodesToString('', getChildren(child), i + 1)}</${elementKey}>`
 		} else if (typeof child === 'object' && child) {
 			const clone = { ...(child as any as { format: string }) }
 			const format = clone.format
