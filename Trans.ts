@@ -51,6 +51,24 @@ export interface Dummy {
 	text?: string
 }
 
+export interface IsFragmentFunction {
+	(c: m.ComponentTypes, v: m.Vnode): boolean
+}
+
+let isFragmentProvided: IsFragmentFunction
+
+function isFragment(c: m.ComponentTypes, v: m.Vnode): boolean {
+	return c === Fragment || (isFragmentProvided && isFragmentProvided(c, v))
+}
+
+export function getIsFragment() {
+	return isFragmentProvided
+}
+
+export function setIsFragment(f: IsFragmentFunction) {
+	isFragmentProvided = f
+}
+
 function isTextNode(o: any): o is m.Vnode {
 	return o && typeof o === 'object' && (o as m.Vnode).tag === '#'
 }
@@ -116,7 +134,7 @@ export function nodesToString(mem: string, children: Children, index: number) {
 			mem += `${child}`
 		} else if (isTextNode(child)) {
 			mem += `${getText(child)}`
-		} else if (isComponentNode(child)) {
+		} else if (isComponentNode(child) && !isFragment(child.tag as m.Component, child)) {
 			mem += `<${elementKey}></${elementKey}>`
 		} else if (hasChildren(child)) {
 			mem += `<${elementKey}>${nodesToString('', getChildren(child), i + 1)}</${elementKey}>`

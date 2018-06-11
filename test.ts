@@ -3,6 +3,7 @@
 import { test } from 'ava';
 import * as i18n from 'i18next';
 import * as m from 'mithril';
+import { Fragment } from './Fragment';
 import { nodesToString, renderNodes, Trans } from './Trans';
 
 i18n.init({
@@ -67,6 +68,10 @@ test(t => {
 
 test(t => {
 	t.is(nodesToString('', [m(ClassComp, m(ObjComp))], 0), '<0></0>')
+})
+
+test(t => {
+	t.is(nodesToString('', [m(Fragment, m(ObjComp))], 0), '<0><0></0></0>')
 })
 
 test(t => {

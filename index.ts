@@ -1,1 +1,1 @@
-export { Trans } from './Trans'
+export { getIsFragment, setIsFragment, Trans } from './Trans';

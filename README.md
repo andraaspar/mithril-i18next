@@ -21,6 +21,8 @@ m(Trans, { i18nKey: 'foo' },
 
 ## Changelog
 
+**0.4.0** Fixed recursing inside fragments.
+
 **0.3.0** Fixed recursing inside component children.
 
 **0.2.1** Fixed isComponent check.
