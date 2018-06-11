@@ -52,12 +52,12 @@ export interface Dummy {
 }
 
 export interface IsFragmentFunction {
-	(c: m.ComponentTypes, v: m.Vnode): boolean
+	(c: any, v: m.Vnode): boolean
 }
 
 let isFragmentProvided: IsFragmentFunction
 
-function isFragment(c: m.ComponentTypes, v: m.Vnode): boolean {
+function isFragment(c: any, v: m.Vnode): boolean {
 	return c === Fragment || (isFragmentProvided && isFragmentProvided(c, v))
 }
 
@@ -178,7 +178,7 @@ export function renderNodes(children: Children, targetString: string): m.ChildAr
 
 				if (typeof child === 'string') {
 					mem.push(child)
-				} else if (hasChildren(child)) {
+				} else if (hasChildren(child) && (!isComponentNode(child) || isFragment(child.tag, child))) {
 					const inner = mapAST(getChildren(child as m.Vnode), node.children)
 
 					if (isVnode(child)) {

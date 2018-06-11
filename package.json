@@ -1,6 +1,6 @@
 {
   "name": "mithril-i18next",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "i18next integration for Mithril.",
   "author": "András Parditka",
   "repository": {

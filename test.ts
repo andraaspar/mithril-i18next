@@ -14,6 +14,7 @@ i18n.init({
 			translation: {
 				'foo': 'baz',
 				'foo<1>bar</1>baz': 'baz<1>foo</1>bar',
+				'foo<1>bar<1></1>baz</1>quux': 'quux<1>foo<1></1>bar</1>baz',
 			},
 		}
 	},
@@ -28,6 +29,12 @@ class ClassComp {
 const ObjComp = {
 	view(v: m.Vnode) {
 		return m('div', 'ObjComp')
+	}
+}
+
+const NoTransFragment = {
+	view(v: m.Vnode) {
+		return v.children
 	}
 }
 
@@ -118,10 +125,33 @@ test(t => {
 test(t => {
 	const vnode = m(Trans, { i18nKey: 'foo<1>bar</1>baz' },
 		'foo',
-		m('div', {class: 'yay'}, 'bar'),
+		m('div', { class: 'yay' }, 'bar'),
 		'baz',
 	)
 	const div = document.createElement('div')
 	m.render(div, vnode)
 	t.is(div.innerHTML, 'baz<div class="yay">foo</div>bar')
+})
+
+test(t => {
+	const vnode = m(Trans, { i18nKey: 'foo<1>bar<1></1>baz</1>quux' },
+		'foo',
+		m(Fragment, { a: true } as any,
+			'bar',
+			m(NoTransFragment, { b: true } as any,
+				m(ClassComp, { c: true } as any, )
+			),
+			'baz',
+		),
+		'quux',
+	)
+	// t.is((vnode as any).children[1].tag, Fragment)
+	// t.is((vnode as any).children[1].children[0].tag, NoTransFragment)
+	// t.is((vnode as any).children[1].children[0].children[0].tag, ClassComp)
+	// t.deepEqual((vnode as any).children[1].attrs, { a: true })
+	// t.deepEqual((vnode as any).children[1].children[0].attrs, { b: true })
+	// t.deepEqual((vnode as any).children[1].children[0].children[0].attrs, { c: true })
+	const div = document.createElement('div')
+	m.render(div, vnode)
+	t.is(div.innerHTML, 'quuxfoo<div>ClassComp</div>barbaz')
 })
